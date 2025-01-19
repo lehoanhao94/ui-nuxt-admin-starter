@@ -1,11 +1,12 @@
-export const useTenantsStore = defineStore('tenantsStore', {
+export const useTenantsStore = defineStore("tenantsStore", {
   state: () => ({
-    tenants: []
+    tenants: [],
   }),
   actions: {
     async fetchTenants() {
-      const tenants = await fetch('/api/tenants')
-      this.tenants = await tenants.json()
-    }
-  }
-})
+      const response = await useAPI().adminService.get(
+        "/v1/infra/admin",
+      );
+    },
+  },
+});

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const tenantsStore = useTenantsStore();
+const authStore = useAuthStore();
 const route = useRoute();
 const appConfig = useAppConfig();
 const { isHelpSlideoverOpen } = useDashboard();
@@ -44,6 +46,11 @@ const groups = [
     ],
   },
 ];
+
+onMounted(() => {
+  authStore.fetchUser();
+  tenantsStore.fetchTenants();
+});
 </script>
 
 <template>

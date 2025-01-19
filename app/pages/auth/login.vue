@@ -1,46 +1,53 @@
 <script setup lang="ts">
 definePageMeta({
   layout: "auth",
+  notRequiresAuth: true,
 });
 
 useSeoMeta({
   title: "Login",
 });
 
+const authStore = useAuthStore();
+const { loadings, errors } = storeToRefs(authStore);
 const fields = [
   {
-    name: "tenantId",
+    name: "tenant_id",
     type: "text",
     label: "テナントID",
     placeholder: "Ex: playnextlab",
+    tabindex: 1,
   },
   {
-    name: "email",
-    type: "email",
-    label: "メールアドレス",
-    placeholder: "Ex: example@email.com",
+    name: "username",
+    type: "text",
+    label: "ユーザー名",
+    placeholder: "Ex: john.doe",
+    tabindex: 2,
   },
   {
     name: "password",
     label: "パスワード",
     type: "password",
     placeholder: "パスワードを入力してください",
+    tabindex: 3,
   },
 ];
 
 const validate = (state: any) => {
   const errors = [];
-  if (!state.tenantId) errors.push({ path: "tenantId", message: "テナントIDは必須です" });
-  if (!state.email) errors.push({ path: "email", message: "メールアドレスは必須です" });
+  if (!state.tenant_id)
+    errors.push({ path: "tenant_id", message: "テナントIDは必須です" });
+  if (!state.username) errors.push({ path: "username", message: "ユーザー名は必須です" });
   if (!state.password) errors.push({ path: "password", message: "パスワードは必須です" });
   return errors;
 };
 
-function onSubmit(data: any) {
-  console.log("Submitted", data);
-
-  // navigate to the dashboard
-  navigateTo("/");
+async function onSubmit(data: { tenant_id: string; username: string; password: string }) {
+  const result = await authStore.login(data.tenant_id, data.username, data.password);
+  if (result) {
+    navigateTo("/");
+  }
 }
 </script>
 
@@ -59,10 +66,20 @@ function onSubmit(data: any) {
         trailingIcon: 'i-heroicons-arrow-right-20-solid',
         label: 'ログイン',
       }"
+      :loading="loadings.login"
       @submit="onSubmit"
     >
       <template #description>
         <div class="text-sm">LLM RAG管理へログイン</div>
+      </template>
+      <template #validation>
+        <UAlert
+          v-if="errors.login"
+          color="red"
+          icon="i-heroicons-information-circle-20-solid"
+          title="ログイン失敗"
+          :description="errors.login?.error_code"
+        />
       </template>
       <template #password-hint>
         <NuxtLink to="/auth/forgot-password" class="text-primary font-medium">

@@ -1,90 +1,110 @@
 <script setup lang="ts">
-import { sub } from 'date-fns'
-import type { Period, Range } from '~/types'
-
-const { isNotificationsSlideoverOpen } = useDashboard()
-
-const items = [[{
-  label: 'New mail',
-  icon: 'i-heroicons-paper-airplane',
-  to: '/inbox'
-}, {
-  label: 'New user',
-  icon: 'i-heroicons-user-plus',
-  to: '/users'
-}]]
-
-const range = ref<Range>({ start: sub(new Date(), { days: 14 }), end: new Date() })
-const period = ref<Period>('daily')
+definePageMeta({
+  layout: "blank",
+  notRequiresAuth: true,
+});
 </script>
 
 <template>
-  <UDashboardPage>
-    <UDashboardPanel grow>
-      <UDashboardNavbar title="Home">
-        <template #right>
-          <UTooltip
-            text="Notifications"
-            :shortcuts="['N']"
-          >
-            <UButton
-              color="gray"
-              variant="ghost"
-              square
-              @click="isNotificationsSlideoverOpen = true"
-            >
-              <UChip
-                color="red"
-                inset
-              >
-                <UIcon
-                  name="i-heroicons-bell"
-                  class="w-5 h-5"
-                />
-              </UChip>
-            </UButton>
-          </UTooltip>
-
-          <UDropdown :items="items">
-            <UButton
-              icon="i-heroicons-plus"
-              size="md"
-              class="ml-1.5 rounded-full"
-            />
-          </UDropdown>
-        </template>
-      </UDashboardNavbar>
-
-      <UDashboardToolbar>
-        <template #left>
-          <!-- ~/components/home/HomeDateRangePicker.vue -->
-          <HomeDateRangePicker
-            v-model="range"
-            class="-ml-2.5"
-          />
-
-          <!-- ~/components/home/HomePeriodSelect.vue -->
-          <HomePeriodSelect
-            v-model="period"
-            :range="range"
-          />
-        </template>
-      </UDashboardToolbar>
-
-      <UDashboardPanelContent>
-        <!-- ~/components/home/HomeChart.vue -->
-        <HomeChart
-          :period="period"
-          :range="range"
-        />
-
-        <div class="grid lg:grid-cols-2 lg:items-start gap-8 mt-8">
-          <!-- ~/components/home/HomeSales.vue -->
-          <HomeSales />
-          <!-- ~/components/home/HomeCountries.vue -->
-          <HomeCountries />
-        </div>
-      </UDashboardPanelContent>
-    </UDashboardPanel>
-  </UDashboardPage>
+  <div class="flex flex-col items-center justify-center gap-4">
+    <div class="loader-ring">
+      <div class="loader-ring-light-green"></div>
+      <div class="loader-ring-light-blue"></div>
+      <div class="loader-ring-light-orange"></div>
+      <div class="loader-ring-track"></div>
+    </div>
+    <div class="text-center text-white flex flex-col items-center gap-2">
+      <div class="text-xl font-semibold text-primary-500">LLM RAGへようこそ！</div>
+      <div class="text-sm">データの読み込み中です。お待ちください...</div>
+    </div>
+  </div>
 </template>
+
+<style scoped lang="css">
+.loader-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -170px 0 0 -65px;
+  width: 120px;
+  height: 120px;
+  background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiB3aWR0aD0iMTIwMCIgaGVpZ2h0PSIxMjAwIiB2aWV3Qm94PSIwIDAgMTIwMCAxMjAwIj48Zz48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSg2MDAgNjAwKSBzY2FsZSgwLjY5IDAuNjkpIHJvdGF0ZSgwKSB0cmFuc2xhdGUoLTYwMCAtNjAwKSIgc3R5bGU9ImZpbGw6I2QzY2NkNjsiPjxzdmcgZmlsbD0iI2QzY2NkNiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMjA2IDIwNiAxMDAgMTAwIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDIwNiAyMDYgMTAwIDEwMCIgeG1sOnNwYWNlPSJwcmVzZXJ2ZSI+PGc+PHBhdGggZD0iTTIzNC45NzcsMjc4LjAyNGg0Mi4wNDdjMC41NTMsMCwxLjAwMS0wLjQ0OCwxLjAwMS0xLjAwMXYtNDIuMDQ3YzAtMC41NTItMC40NDgtMS4wMDEtMS4wMDEtMS4wMDFoLTIzLjUzMyAgIGMtMC4yNjYsMC0wLjUyLDAuMTA2LTAuNzA4LDAuMjkzbC0xOC41MTQsMTguNTE0Yy0wLjE4OCwwLjE4OC0wLjI5MywwLjQ0Mi0wLjI5MywwLjcwOHYyMy41MzMgICBDMjMzLjk3NiwyNzcuNTc2LDIzNC40MjQsMjc4LjAyNCwyMzQuOTc3LDI3OC4wMjR6IE0yMzUuOTc4LDI1My45MDVsMTEuMzItMTEuMzJoMTkuMDQ1YzIuMDk5LDAsMy44MDYsMS43MDcsMy44MDYsMy44MDQgICBjMCwyLjA5OC0xLjcwNywzLjgwNC0zLjgwNiwzLjgwNGgtMTcuODUyYy0zLjIwMiwwLTUuODA3LDIuNjA0LTUuODA3LDUuODA3czIuNjA1LDUuODA3LDUuODA3LDUuODA3aDEwLjcxMSAgIGMyLjA5OSwwLDMuODA1LDEuNzA3LDMuODA1LDMuODA0YzAsMi4wOTktMS43MDYsMy44MDQtMy44MDUsMy44MDRoLTIzLjIyNVYyNTMuOTA1eiBNMjM1Ljk3OCwyNzEuNDE3aDIzLjIyNSAgIGMzLjIwMiwwLDUuODA3LTIuNjA0LDUuODA3LTUuODA3cy0yLjYwNC01LjgwNy01LjgwNy01LjgwN2gtMTAuNzExYy0yLjA5OCwwLTMuODA1LTEuNzA1LTMuODA1LTMuODA0ICAgYzAtMi4wOTgsMS43MDctMy44MDUsMy44MDUtMy44MDVoMTcuODUzYzMuMjAxLDAsNS44MDYtMi42MDQsNS44MDYtNS44MDZjMC0zLjIwMS0yLjYwNC01LjgwNS01LjgwNi01LjgwN2wwLDBIMjQ5LjNsNC42MDUtNC42MDQgICBoMjIuMTE3djQwLjA0NGgtNDAuMDQ0VjI3MS40MTd6Ij48L3BhdGg+PHBhdGggZD0iTTMwMC4yNDksMjQ5LjIxNGMwLjU1MywwLDEuMDAxLTAuNDQ4LDEuMDAxLTF2LTUuNTYyYzAtMC41NTMtMC40NDgtMS4wMDEtMS4wMDEtMS4wMDFoLTE2LjIxOXYtNC4xMTZoOS42MSAgIGMwLjU1NCwwLDEuMDAyLTAuNDQ4LDEuMDAyLTF2LTUuNTYyYzAtMC41NTItMC40NDgtMS4wMDEtMS4wMDItMS4wMDFjLTAuNTUzLDAtMSwwLjQ0OS0xLDEuMDAxdjQuNTYxaC04LjYxdi02LjU2MyAgIGMwLTAuNTUzLTAuNDQ3LTEuMDAxLTEuMDAxLTEuMDAxaC02LjU2M3YtOC42MDloNC41NjJjMC41NTMsMCwxLTAuNDQ5LDEtMS4wMDFjMC0wLjU1My0wLjQ0Ny0xLjAwMS0xLTEuMDAxaC01LjU2MyAgIGMtMC41NTMsMC0xLjAwMSwwLjQ0OC0xLjAwMSwxLjAwMXY5LjYxaC00LjExNnYtMTYuMjE4YzAtMC41NTMtMC40NDgtMS4wMDEtMS4wMDEtMS4wMDFoLTUuNTYxYy0wLjU1MywwLTEuMDAyLDAuNDQ4LTEuMDAyLDEuMDAxICAgczAuNDQ5LDEuMDAxLDEuMDAyLDEuMDAxaDQuNTZ2MTUuMjE2aC0xMS4zNDZ2LTYuNzVjMS41MzgtMC40MzcsMi42NjktMS44NTIsMi42NjktMy41MjhjMC0yLjAyNC0xLjY0Ni0zLjY3MS0zLjY3LTMuNjcxICAgYy0yLjAyNCwwLTMuNjcxLDEuNjQ2LTMuNjcxLDMuNjcxYzAsMS42NzYsMS4xMzEsMy4wOTEsMi42NywzLjUyOHY2Ljc1aC0xMS4zNDZ2LTE1LjIxNmg0LjU2YzAuNTUzLDAsMS4wMDEtMC40NDksMS4wMDEtMS4wMDEgICBzLTAuNDQ4LTEuMDAxLTEuMDAxLTEuMDAxaC01LjU2MWMtMC41NTMsMC0xLjAwMSwwLjQ0OC0xLjAwMSwxLjAwMXYxNi4yMThoLTQuMTE2di05LjYxYzAtMC41NTMtMC40NDgtMS4wMDEtMS4wMDEtMS4wMDFoLTUuNTYxICAgYy0wLjU1MywwLTEuMDAxLDAuNDQ4LTEuMDAxLDEuMDAxYzAsMC41NTMsMC40NDgsMS4wMDEsMS4wMDEsMS4wMDFoNC41NjF2OC42MDloLTYuNTYzYy0wLjU1MywwLTEuMDAxLDAuNDQ5LTEuMDAxLDEuMDAxdjYuNTYzICAgaC04LjYwOXYtNC41NjFjMC0wLjU1Mi0wLjQ0OS0xLjAwMS0xLjAwMS0xLjAwMWMtMC41NTMsMC0xLjAwMSwwLjQ0OS0xLjAwMSwxLjAwMXY1LjU2MmMwLDAuNTUzLDAuNDQ4LDEsMS4wMDEsMWg5LjYxdjQuMTE2ICAgaC0xNi4yMThjLTAuNTUzLDAtMS4wMDEsMC40NDgtMS4wMDEsMS4wMDF2NS41NjJjMCwwLjU1MiwwLjQ0OCwxLDEuMDAxLDFjMC41NTMsMCwxLjAwMS0wLjQ0OCwxLjAwMS0xdi00LjU2MWgxNS4yMTZ2MTEuMzQ2aC02Ljc1ICAgYy0wLjQzNy0xLjUzOC0xLjg1Mi0yLjY3LTMuNTI4LTIuNjdjLTIuMDI0LDAtMy42NzEsMS42NDctMy42NzEsMy42NzFjMCwyLjAyNCwxLjY0NiwzLjY3LDMuNjcxLDMuNjcgICBjMS42NzYsMCwzLjA5MS0xLjEzMSwzLjUyOC0yLjY2OWg2Ljc1djExLjM0NmgtMTUuMjE2di00LjU2YzAtMC41NTMtMC40NDktMS4wMDEtMS4wMDEtMS4wMDFjLTAuNTUzLDAtMS4wMDEsMC40NDgtMS4wMDEsMS4wMDEgICB2NS41NjFjMCwwLjU1NCwwLjQ0OCwxLjAwMiwxLjAwMSwxLjAwMmgxNi4yMTh2NC4xMTVoLTkuNjFjLTAuNTUzLDAtMS4wMDEsMC40NDgtMS4wMDEsMS4wMDF2NS41NjNjMCwwLjU1MywwLjQ0OCwxLDEuMDAxLDEgICBjMC41NTMsMCwxLjAwMS0wLjQ0NywxLjAwMS0xdi00LjU2MWg4LjYwOXY2LjU2MmMwLDAuNTU0LDAuNDQ5LDEuMDAxLDEuMDAxLDEuMDAxaDYuNTYzdjguNjFoLTQuNTYxYy0wLjU1MywwLTEuMDAxLDAuNDQ3LTEuMDAxLDEgICBjMCwwLjU1NSwwLjQ0OCwxLjAwMiwxLjAwMSwxLjAwMmg1LjU2MWMwLjU1MywwLDEuMDAxLTAuNDQ3LDEuMDAxLTEuMDAydi05LjYxaDQuMTE2djE2LjIxOWMwLDAuNTUzLDAuNDQ4LDEuMDAxLDEuMDAxLDEuMDAxICAgaDUuNTYxYzAuNTUzLDAsMS4wMDEtMC40NDgsMS4wMDEtMS4wMDFzLTAuNDQ4LTEuMDAxLTEuMDAxLTEuMDAxaC00LjU2VjI4NC4wM2gxMS4zNDZ2Ni43NWMtMS41MzksMC40MzgtMi42NywxLjg1My0yLjY3LDMuNTI4ICAgYzAsMi4wMjQsMS42NDYsMy42NzIsMy42NzEsMy42NzJjMi4wMjMsMCwzLjY3LTEuNjQ3LDMuNjctMy42NzJjMC0xLjY3Ni0xLjEzMS0zLjA5MS0yLjY2OS0zLjUyOHYtNi43NWgxMS4zNDZ2MTUuMjE4aC00LjU2ICAgYy0wLjU1MywwLTEuMDAyLDAuNDQ4LTEuMDAyLDEuMDAxczAuNDQ5LDEuMDAxLDEuMDAyLDEuMDAxaDUuNTYxYzAuNTUzLDAsMS4wMDEtMC40NDgsMS4wMDEtMS4wMDFWMjg0LjAzaDQuMTE2djkuNjEgICBjMCwwLjU1NSwwLjQ0OCwxLjAwMiwxLjAwMSwxLjAwMmg1LjU2M2MwLjU1MywwLDEtMC40NDcsMS0xLjAwMmMwLTAuNTUzLTAuNDQ3LTEtMS0xaC00LjU2MnYtOC42MWg2LjU2MyAgIGMwLjU1NCwwLDEuMDAxLTAuNDQ3LDEuMDAxLTEuMDAxdi02LjU2Mmg4LjYxdjQuNTYxYzAsMC41NTMsMC40NDcsMSwxLDFjMC41NTQsMCwxLjAwMi0wLjQ0NywxLjAwMi0xdi01LjU2MyAgIGMwLTAuNTUzLTAuNDQ4LTEuMDAxLTEuMDAyLTEuMDAxaC05LjYxdi00LjExNWgxNi4yMTljMC41NTMsMCwxLjAwMS0wLjQ0OCwxLjAwMS0xLjAwMnYtNS41NjFjMC0wLjU1My0wLjQ0OC0xLjAwMS0xLjAwMS0xLjAwMSAgIHMtMS4wMDEsMC40NDgtMS4wMDEsMS4wMDF2NC41NmgtMTUuMjE4di0xMS4zNDZoNi43NWMwLjQzOCwxLjUzOCwxLjg1MiwyLjY2OSwzLjUyOCwyLjY2OWMyLjAyNCwwLDMuNjcyLTEuNjQ2LDMuNjcyLTMuNjcgICBjMC0yLjAyNC0xLjY0Ny0zLjY3MS0zLjY3Mi0zLjY3MWMtMS42NzcsMC0zLjA5MSwxLjEzMi0zLjUyOCwyLjY3aC02Ljc1di0xMS4zNDZoMTUuMjE4djQuNTYxICAgQzI5OS4yNDgsMjQ4Ljc2NiwyOTkuNjk3LDI0OS4yMTQsMzAwLjI0OSwyNDkuMjE0eiBNMjE3LjY5MiwyNTcuNjY4Yy0wLjkyLDAtMS42NjgtMC43NDgtMS42NjgtMS42NjggICBjMC0wLjkyLDAuNzQ4LTEuNjY4LDEuNjY4LTEuNjY4YzAuOTE5LDAsMS42NjgsMC43NDgsMS42NjgsMS42NjhDMjE5LjM2LDI1Ni45MiwyMTguNjExLDI1Ny42NjgsMjE3LjY5MiwyNTcuNjY4eiAgICBNMjU0LjMzMiwyMTcuNjkxYzAtMC45MiwwLjc0OC0xLjY2OCwxLjY2OC0xLjY2OGMwLjkyLDAsMS42NjgsMC43NDgsMS42NjgsMS42NjhjMCwwLjkxOS0wLjc0OCwxLjY2OC0xLjY2OCwxLjY2OCAgIEMyNTUuMDgsMjE5LjM2LDI1NC4zMzIsMjE4LjYxMSwyNTQuMzMyLDIxNy42OTF6IE0yNTcuNjY4LDI5NC4zMDljMCwwLjkyLTAuNzQ4LDEuNjY4LTEuNjY4LDEuNjY4ICAgYy0wLjkyLDAtMS42NjgtMC43NDgtMS42NjgtMS42NjhjMC0wLjkyMSwwLjc0OC0xLjY2OSwxLjY2OC0xLjY2OUMyNTYuOTIsMjkyLjY0LDI1Ny42NjgsMjkzLjM4OCwyNTcuNjY4LDI5NC4zMDl6ICAgIE0yODIuMDI5LDI4Mi4wMjhoLTUyLjA1N3YtNTIuMDU3aDUyLjA1N1YyODIuMDI4eiBNMjk0LjMwOSwyNTQuMzMxYzAuOTIsMCwxLjY2OSwwLjc0OCwxLjY2OSwxLjY2OCAgIGMwLDAuOTItMC43NDksMS42NjgtMS42NjksMS42NjhzLTEuNjY4LTAuNzQ4LTEuNjY4LTEuNjY4QzI5Mi42NDEsMjU1LjA3OSwyOTMuMzg5LDI1NC4zMzEsMjk0LjMwOSwyNTQuMzMxeiI+PC9wYXRoPjwvZz48L3N2Zz48L2c+PC9nPjwvc3ZnPg==");
+  background-size: 90%;
+  background-position: center;
+  background-repeat: no-repeat;
+  animation: pulse 2.5s linear infinite;
+}
+
+.loader-ring-light-green {
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 120px;
+  -webkit-border-radius: 120px;
+  border-radius: 120px;
+  box-shadow: 0 2px 4px 0px #2ec870;
+  animation: rotate-360 2s linear infinite;
+  mix-blend-mode: color-dodge;
+}
+.loader-ring-light-blue {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 120px;
+  -webkit-border-radius: 120px;
+  border-radius: 120px;
+  box-shadow: -2px 0px 4px 0px #1eaedb;
+  animation: rotate-360 1.5s linear infinite;
+  mix-blend-mode: color-dodge;
+}
+.loader-ring-light-orange {
+  position: absolute;
+  top: 0;
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 120px;
+  -webkit-border-radius: 120px;
+  border-radius: 120px;
+  box-shadow: 0 -2px 4px 0px #ed2222;
+  animation: rotate-360 2.5s linear infinite;
+  mix-blend-mode: color-dodge;
+}
+
+.loader-ring-track {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 120px;
+  height: 120px;
+  -moz-border-radius: 120px;
+  -webkit-border-radius: 120px;
+  border-radius: 120px;
+  box-shadow: 0 0 50px 1px rgba(229, 228, 245, 0.8);
+}
+
+@keyframes rotate-360 {
+  0% {
+    -moz-transform: rotate(0);
+    -ms-transform: rotate(0);
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0.99999;
+  }
+}
+</style>

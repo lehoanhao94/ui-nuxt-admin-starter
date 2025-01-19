@@ -31,7 +31,7 @@ const categories = computed(() => [
       { shortcuts: ["G", "H"], name: "Go to Home" },
       { shortcuts: ["G", "I"], name: "Go to Inbox" },
       { shortcuts: ["G", "U"], name: "Go to Users" },
-      { shortcuts: ["G", "S"], name: "Go to Settings" },
+      { shortcuts: ["G", "S"], name: "Go to 設定" },
     ],
   },
   {

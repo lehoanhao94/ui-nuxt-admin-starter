@@ -78,7 +78,7 @@ const _useNavigators = () => {
         icon: "i-heroicons-cog-8-tooth",
         children: settingsNavigators.value(false),
         tooltip: {
-          text: "Settings",
+          text: "設定",
           shortcuts: ["G", "S"],
         },
       },

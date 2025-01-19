@@ -1,4 +1,3 @@
-import path from "path";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   extends: ["@nuxt/ui-pro"],
@@ -10,6 +9,7 @@ export default defineNuxtConfig({
     "@vueuse/nuxt",
     "@pinia/nuxt",
     "pinia-plugin-persistedstate/nuxt",
+    "@nuxtjs/i18n",
   ],
 
   devtools: {
@@ -55,7 +55,14 @@ export default defineNuxtConfig({
     },
   ],
   css: ["~/assets/style/style.css"],
-  pinia: {
-    storesDirs: ["~/stores/**"],
+  runtimeConfig: {
+    public: {
+      api: {
+        adminServiceBaseUrl: process.env.ADMIN_SERVICE_BASE_URL || "",
+      },
+    },
+  },
+  i18n: {
+    vueI18n: "./i18n.config.ts",
   },
 });
