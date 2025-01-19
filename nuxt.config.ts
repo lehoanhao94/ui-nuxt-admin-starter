@@ -1,47 +1,61 @@
+import path from "path";
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  extends: ['@nuxt/ui-pro'],
+  extends: ["@nuxt/ui-pro"],
 
   modules: [
-    '@nuxt/eslint',
-    '@nuxt/fonts',
-    '@nuxt/ui',
-    '@vueuse/nuxt'
+    "@nuxt/eslint",
+    "@nuxt/fonts",
+    "@nuxt/ui",
+    "@vueuse/nuxt",
+    "@pinia/nuxt",
+    "pinia-plugin-persistedstate/nuxt",
   ],
 
   devtools: {
-    enabled: true
+    enabled: true,
   },
 
   colorMode: {
-    disableTransition: true
+    disableTransition: true,
   },
 
   ui: {
-    safelistColors: ['primary', 'red', 'orange', 'green']
+    safelistColors: ["primary", "red", "orange", "green"],
   },
 
   routeRules: {
     // Temporary workaround for prerender regression. see https://github.com/nuxt/nuxt/issues/27490
-    '/': { prerender: true }
+    "/": { prerender: true },
   },
 
   future: {
-    compatibilityVersion: 4
+    compatibilityVersion: 4,
   },
 
-  compatibilityDate: '2024-07-11',
+  compatibilityDate: "2024-07-11",
 
   typescript: {
-    strict: false
+    strict: false,
   },
 
   eslint: {
     config: {
       stylistic: {
-        commaDangle: 'never',
-        braceStyle: '1tbs'
-      }
-    }
-  }
-})
+        commaDangle: "never",
+        braceStyle: "1tbs",
+      },
+    },
+  },
+
+  components: [
+    {
+      path: "~/components",
+      pathPrefix: false,
+    },
+  ],
+  css: ["~/assets/style/style.css"],
+  pinia: {
+    storesDirs: ["~/stores/**"],
+  },
+});

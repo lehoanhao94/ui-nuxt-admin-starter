@@ -10,7 +10,7 @@ useSeoMeta({
 const fields = [
   {
     name: "tenantId",
-    type: "email",
+    type: "text",
     label: "テナントID",
     placeholder: "Ex: playnextlab",
   },
@@ -30,17 +30,17 @@ const fields = [
 
 const validate = (state: any) => {
   const errors = [];
-  if (!state.tenantId)
-    errors.push({ path: "tenantId", message: "テナントIDは必須です" });
-  if (!state.email)
-    errors.push({ path: "email", message: "メールアドレスは必須です" });
-  if (!state.password)
-    errors.push({ path: "password", message: "パスワードは必須です" });
+  if (!state.tenantId) errors.push({ path: "tenantId", message: "テナントIDは必須です" });
+  if (!state.email) errors.push({ path: "email", message: "メールアドレスは必須です" });
+  if (!state.password) errors.push({ path: "password", message: "パスワードは必須です" });
   return errors;
 };
 
 function onSubmit(data: any) {
   console.log("Submitted", data);
+
+  // navigate to the dashboard
+  navigateTo("/");
 }
 </script>
 
@@ -69,9 +69,7 @@ function onSubmit(data: any) {
           パスワードをお忘れですか？
         </NuxtLink>
       </template>
-      <template #footer>
-        PlayNext Lab @ {{ new Date().getFullYear() }}
-      </template>
+      <template #footer> PlayNext Lab @ {{ new Date().getFullYear() }} </template>
     </UAuthForm>
   </UCard>
 </template>

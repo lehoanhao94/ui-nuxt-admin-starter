@@ -5,13 +5,15 @@ const _useDashboard = () => {
   const router = useRouter()
   const isHelpSlideoverOpen = ref(false)
   const isNotificationsSlideoverOpen = ref(false)
+  const isPreviewSlideoverOpen = ref(false)
 
   defineShortcuts({
-    'g-h': () => router.push('/'),
+    'g-d': () => router.push('/'),
     'g-i': () => router.push('/inbox'),
     'g-u': () => router.push('/users'),
     'g-s': () => router.push('/settings'),
     '?': () => isHelpSlideoverOpen.value = true,
+    'g-p': () => isPreviewSlideoverOpen.value = true,
     'n': () => isNotificationsSlideoverOpen.value = true
   })
 
@@ -22,7 +24,8 @@ const _useDashboard = () => {
 
   return {
     isHelpSlideoverOpen,
-    isNotificationsSlideoverOpen
+    isNotificationsSlideoverOpen,
+    isPreviewSlideoverOpen
   }
 }
 

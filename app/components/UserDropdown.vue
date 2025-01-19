@@ -20,7 +20,7 @@ const items = computed(() => [
       isDashboardSearchModalOpen.value = true
     }
   }, {
-    label: 'Help & Support',
+    label: 'ヘルプ＆サポート',
     icon: 'i-heroicons-question-mark-circle',
     shortcuts: ['?'],
     click: () => isHelpSlideoverOpen.value = true
