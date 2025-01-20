@@ -3,23 +3,28 @@ definePageMeta({
   layout: 'blank',
   notRequiresAuth: true
 })
+const app = useApp()
+
+onMounted(() => {
+  app.initialApp()
+})
 </script>
 
 <template>
   <div class="flex flex-col items-center justify-center gap-4">
     <div class="w-32 h-32 relative">
       <div class="loader-ring">
-        <div class="loader-ring-light-green" />
+        <div class="loader-ring-light-green shadow-purple-500" />
         <div class="loader-ring-light-blue" />
         <div class="loader-ring-light-orange" />
         <div class="loader-ring-track" />
       </div>
     </div>
     <div class="text-center text-white flex flex-col items-center gap-2">
-      <div class="text-xl font-semibold text-primary-500">
+      <div class="text-xl font-semibold text-primary-800 dark:text-primary-500">
         LLM RAGへようこそ！
       </div>
-      <div class="text-sm">
+      <div class="text-sm text-black dark:text-gray-200">
         データの読み込み中です。お待ちください...
       </div>
     </div>
@@ -44,7 +49,7 @@ definePageMeta({
   -moz-border-radius: 120px;
   -webkit-border-radius: 120px;
   border-radius: 120px;
-  box-shadow: 0 2px 4px 0px #2ec870;
+  box-shadow: 0 6px 12px 0px #2ec870;
   animation: rotate-360 2s linear infinite;
   mix-blend-mode: color-dodge;
 }
@@ -56,7 +61,7 @@ definePageMeta({
   -moz-border-radius: 120px;
   -webkit-border-radius: 120px;
   border-radius: 120px;
-  box-shadow: -2px 0px 4px 0px #1eaedb;
+  box-shadow: -6px 0px 12px 0px #1eaedb;
   animation: rotate-360 1.5s linear infinite;
   mix-blend-mode: color-dodge;
 }
@@ -68,7 +73,7 @@ definePageMeta({
   -moz-border-radius: 120px;
   -webkit-border-radius: 120px;
   border-radius: 120px;
-  box-shadow: 0 -2px 4px 0px #ed2222;
+  box-shadow: 0 -7px 12px 0px #ed2222;
   animation: rotate-360 2.5s linear infinite;
   mix-blend-mode: color-dodge;
 }
@@ -82,7 +87,7 @@ definePageMeta({
   -moz-border-radius: 120px;
   -webkit-border-radius: 120px;
   border-radius: 120px;
-  box-shadow: 0 0 50px 1px rgba(229, 228, 245, 0.8);
+  box-shadow: 0 0 100px 2px rgba(229, 228, 245, 0.8);
 }
 
 @keyframes rotate-360 {
@@ -104,7 +109,7 @@ definePageMeta({
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0.7;
   }
   100% {
     opacity: 0.99999;

@@ -3,7 +3,7 @@ import { jwtDecode } from 'jwt-decode'
 export const useAuthStore = defineStore('authStore', {
   persist: [
     {
-      paths: ['token'],
+      pick: ['token'],
       storage: window?.sessionStorage
     }
   ],
@@ -21,7 +21,7 @@ export const useAuthStore = defineStore('authStore', {
       try {
         this.loadings.login = true
         this.errors.login = null
-        const response = await useAPI().adminService.post(
+        const response = await useAPI().authService.post(
           '/login',
           {
             tenant_id,

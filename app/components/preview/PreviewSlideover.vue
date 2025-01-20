@@ -1,19 +1,19 @@
 <script setup lang="ts">
-const { isPreviewSlideoverOpen } = useDashboard();
+const { isPreviewSlideoverOpen } = useDashboard()
 
-const chatTextarea = ref();
+const chatTextarea = ref()
 
 watch(
   () => isPreviewSlideoverOpen.value,
   (isOpen) => {
     if (isOpen) {
       nextTick(() => {
-        chatTextarea.value?.textarea?.focus();
-        console.log("🚀 ~ nextTick ~ chatTextarea.value:", chatTextarea.value);
-      });
+        chatTextarea.value?.textarea?.focus()
+        console.log('🚀 ~ nextTick ~ chatTextarea.value:', chatTextarea.value)
+      })
     }
   }
-);
+)
 </script>
 
 <template>
@@ -22,12 +22,15 @@ watch(
     title="チャットボットのプレビュー"
     :ui="{
       body: {
-        base: 'scrollbar-thin',
-      },
+        base: 'scrollbar-thin'
+      }
     }"
   >
     <div class="space-y-4">
-      <ChatBubble v-for="i in 100" />
+      <ChatBubble
+        v-for="i in 100"
+        :key="i"
+      />
     </div>
     <template #footer>
       <div class="w-full">

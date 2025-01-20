@@ -58,6 +58,9 @@ dependencies:
     version: 3.1.2(@popperjs/core@2.11.8)(vue@3.5.13)
 
 devDependencies:
+  '@faker-js/faker':
+    specifier: ^9.4.0
+    version: 9.4.0
   '@nuxt/eslint':
     specifier: ^0.7.5
     version: 0.7.5(@vue/compiler-sfc@3.5.13)(eslint@9.18.0)(rollup@4.30.1)(typescript@5.7.3)(vite@6.0.7)
@@ -1050,6 +1053,11 @@ packages:
     dependencies:
       '@eslint/core': 0.10.0
       levn: 0.4.1
+
+  /@faker-js/faker@9.4.0:
+    resolution: {integrity: sha512-85+k0AxaZSTowL0gXp8zYWDIrWclTbRPg/pm/V0dSFZ6W6D4lhcG3uuZl4zLsEKfEvs69xDbLN2cHQudwp95JA==}
+    engines: {node: '>=18.0.0', npm: '>=9.0.0'}
+    dev: true
 
   /@headlessui/tailwindcss@0.2.1(tailwindcss@3.4.17):
     resolution: {integrity: sha512-2+5+NZ+RzMyrVeCZOxdbvkUSssSxGvcUxphkIfSVLpRiKsj+/63T2TOL9dBYMXVfj/CGr6hMxSRInzXv6YY7sA==}

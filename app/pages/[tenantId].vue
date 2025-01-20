@@ -1,8 +1,8 @@
 <script setup lang="ts">
 // middleware authentication
 definePageMeta({
-  middleware: "authentication",
-});
+  middleware: 'authentication'
+})
 </script>
 
 <template>

@@ -1,54 +1,60 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: "auth",
-  notRequiresAuth: true,
-});
+  layout: 'auth',
+  notRequiresAuth: true
+})
 
 useSeoMeta({
-  title: "Login",
-});
+  title: 'Login'
+})
 
-const authStore = useAuthStore();
-const { loadings, errors } = storeToRefs(authStore);
+const authStore = useAuthStore()
+const { loadings, errors, authenticated } = storeToRefs(authStore)
 const fields = [
   {
-    name: "tenant_id",
-    type: "text",
-    label: "テナントID",
-    placeholder: "Ex: playnextlab",
-    tabindex: 1,
+    name: 'tenant_id',
+    type: 'text',
+    label: 'テナントID',
+    placeholder: 'Ex: playnextlab',
+    tabindex: 1
   },
   {
-    name: "username",
-    type: "text",
-    label: "ユーザー名",
-    placeholder: "Ex: john.doe",
-    tabindex: 2,
+    name: 'username',
+    type: 'text',
+    label: 'ユーザー名',
+    placeholder: 'Ex: john.doe',
+    tabindex: 2
   },
   {
-    name: "password",
-    label: "パスワード",
-    type: "password",
-    placeholder: "パスワードを入力してください",
-    tabindex: 3,
-  },
-];
+    name: 'password',
+    label: 'パスワード',
+    type: 'password',
+    placeholder: 'パスワードを入力してください',
+    tabindex: 3
+  }
+]
 
 const validate = (state: any) => {
-  const errors = [];
+  const errors = []
   if (!state.tenant_id)
-    errors.push({ path: "tenant_id", message: "テナントIDは必須です" });
-  if (!state.username) errors.push({ path: "username", message: "ユーザー名は必須です" });
-  if (!state.password) errors.push({ path: "password", message: "パスワードは必須です" });
-  return errors;
-};
+    errors.push({ path: 'tenant_id', message: 'テナントIDは必須です' })
+  if (!state.username) errors.push({ path: 'username', message: 'ユーザー名は必須です' })
+  if (!state.password) errors.push({ path: 'password', message: 'パスワードは必須です' })
+  return errors
+}
 
-async function onSubmit(data: { tenant_id: string; username: string; password: string }) {
-  const result = await authStore.login(data.tenant_id, data.username, data.password);
+async function onSubmit(data: { tenant_id: string, username: string, password: string }) {
+  const result = await authStore.login(data.tenant_id, data.username, data.password)
   if (result) {
-    navigateTo("/");
+    navigateTo('/')
   }
 }
+
+onMounted(() => {
+  if (authenticated.value) {
+    navigateTo('/')
+  }
+})
 </script>
 
 <!-- eslint-disable vue/multiline-html-element-content-newline -->
@@ -64,7 +70,7 @@ async function onSubmit(data: { tenant_id: string; username: string; password: s
       :ui="{ base: 'text-center', footer: 'text-center' }"
       :submit-button="{
         trailingIcon: 'i-heroicons-arrow-right-20-solid',
-        label: 'ログイン',
+        label: 'ログイン'
       }"
       :loading="loadings.login"
       @submit="onSubmit"
@@ -82,7 +88,10 @@ async function onSubmit(data: { tenant_id: string; username: string; password: s
         />
       </template>
       <template #password-hint>
-        <NuxtLink to="/auth/forgot-password" class="text-primary font-medium">
+        <NuxtLink
+          to="/auth/forgot-password"
+          class="text-primary font-medium"
+        >
           パスワードをお忘れですか？
         </NuxtLink>
       </template>

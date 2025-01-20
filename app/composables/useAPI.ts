@@ -1,25 +1,25 @@
-import axios from "axios";
+import axios from 'axios'
 
-let isRefreshingToken = false;
-let requestsPending = [];
+const isRefreshingToken = false
+const requestsPending = []
 
 const createAxios = (baseURL) => {
-  const newInstance = axios.create({ baseURL });
-  const runtimeConfig = useRuntimeConfig();
+  const newInstance = axios.create({ baseURL })
+  const runtimeConfig = useRuntimeConfig()
   newInstance.interceptors.request.use((config) => {
-    const authStore = useAuthStore();
-    const accessToken = authStore.token;
-    const refreshToken = authStore.token;
+    const authStore = useAuthStore()
+    const accessToken = authStore.token
+    const refreshToken = authStore.token
     if (
-      ["/refresh_token", "/revoke_token"].includes(config.url) &&
-      refreshToken
+      ['/refresh_token', '/revoke_token'].includes(config.url)
+      && refreshToken
     ) {
-      config.headers["Authorization"] = "Bearer " + refreshToken;
+      config.headers['Authorization'] = 'Bearer ' + refreshToken
     } else if (accessToken) {
-      config.headers["Authorization"] = "Bearer " + accessToken;
+      config.headers['Authorization'] = 'Bearer ' + accessToken
     }
-    return config;
-  });
+    return config
+  })
 
   /**
     * @description if any of the API gets 401 status code, this method
@@ -29,7 +29,7 @@ const createAxios = (baseURL) => {
   */
   newInstance.interceptors.response.use(
     (config) => {
-      return { ...config, body: config.data };
+      return { ...config, body: config.data }
     },
     async (error) => {
       // const _errorResponse = error.response
@@ -101,20 +101,22 @@ const createAxios = (baseURL) => {
       //   description: 'エラーが発生しました。' + error.message,
       //   color: 'red'
       // })
-      return Promise.reject(error);
+      return Promise.reject(error)
     }
-  );
+  )
 
-  return newInstance;
-};
+  return newInstance
+}
 
 const _useAPI = () => {
-  const runtimeConfig = useRuntimeConfig();
-  const adminService = createAxios(runtimeConfig.public.api.adminServiceBaseUrl);
+  const runtimeConfig = useRuntimeConfig()
+  const adminService = createAxios(runtimeConfig.public.api.adminServiceBaseUrl)
+  const authService = createAxios(runtimeConfig.public.api.authServiceBaseUrl)
 
   return {
     adminService,
-  };
-};
+    authService
+  }
+}
 
-export const useAPI = _useAPI;
+export const useAPI = _useAPI
